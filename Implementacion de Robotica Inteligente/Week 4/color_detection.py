@@ -6,7 +6,7 @@ import numpy as np
 red_low_H = 0
 red_low_S = 130
 red_low_V = 179
-red_high_H = 33
+red_high_H = 18
 red_high_S = 255
 red_high_V = 255
 
@@ -17,10 +17,10 @@ yellow_high_H = 30
 yellow_high_S = 255
 yellow_high_V = 255
 
-green_low_H = 49
-green_low_S = 39
-green_low_V = 130
-green_high_H = 98
+green_low_H = 45
+green_low_S = 53
+green_low_V = 122
+green_high_H = 88
 green_high_S = 255
 green_high_V = 255
 red = "Red Detector"
@@ -28,7 +28,7 @@ yellow = "Yellow Detector"
 green = "Green Detector"
 
 
-erosion_size = 7
+erosion_size = 4
 dilatation_size = 0
 max_elem = 2
 max_kernel_size = 21
@@ -50,14 +50,16 @@ def blobs(val):
 
     params = cv.SimpleBlobDetector_Params()
     params.filterByCircularity = True
-    params.minCircularity = 1.0
+    params.minCircularity = 0.7
     params.filterByArea = True
-    params.minArea = 150
-    params.maxArea = 400
+    params.minArea = 5000
+    params.maxArea = 500000
     params.filterByInertia = True
     params.minInertiaRatio = 0.6
+    params.filterByConvexity = False
+    
 
-    detector = cv.SimpleBlobDetector_create()
+    detector = cv.SimpleBlobDetector_create(params)
 
     dilatation_dst = 255-dilatation_dst
     keypoints = detector.detect(dilatation_dst)
